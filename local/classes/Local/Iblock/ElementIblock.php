@@ -8,6 +8,11 @@ use \CIBlockElement;
  */
 class ElementIblock
 {
+	//кеширование данных
+	const CACHE = true;
+	const CACHE_TIME = 2678400;
+	
+
 	/**
 	 * Получение списка значений справочника
 	 *
@@ -20,13 +25,6 @@ class ElementIblock
 
 	public static function getList(string $directory, array $arAddOrder = null, array $arAddFilter = null, array $arAddSelect = null)
 	{
-		$iblockId = self::$arIblockId[$directory];
-		if (!$iblockId) {
-			if (self::LOG)
-				Log::add("Попытка получить несуществующий справочник", $directory, "AdsDirectory");
-			return false;
-		}
-
 		$arItems = array();
 
 		$cache = Cache::createInstance(); 
@@ -58,7 +56,7 @@ class ElementIblock
 			$arSelect = array(
 				"ID"				
 			);
-			//Добавляем к селекту параметры по сео
+			//Добавляем к селекту доп.поля
 			$arSelect = array_merge($arSelect, $arAddSelect);
 			$res = CIBlockElement::GetList($arOrder, $arFilter, false, false, $arSelect);
 			while ($arFields = $res->GetNext()) {				
