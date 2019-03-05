@@ -23,13 +23,13 @@ class ElementIblock
 	 * @return array - массив значений
 	*/
 
-	public static function getList(string $directory, array $arAddOrder = null, array $arAddFilter = null, array $arAddSelect = null)
+	public static function getList(array $arAddOrder = null, array $arAddFilter = null, array $arAddSelect = null)
 	{
 		$arItems = array();
 
 		$cache = Cache::createInstance(); 
 		$key = "list_" . $iblockId . "_" . json_encode($arAddOrder) . "_" . json_encode($arAddFilter);
-		if ($cache->initCache(self::CACHE_TIME, $key, "/dev/AdsDirectory") && self::CACHE) { 
+		if ($cache->initCache(self::CACHE_TIME, $key, "/dev/develop") && self::CACHE) { 
 			$arItems = $cache->getVars();
 		} elseif ($cache->startDataCache() || !self::CACHE) {
 			if (!Loader::includeModule("iblock")) {
